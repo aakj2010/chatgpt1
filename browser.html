@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenAI API Example</title>
+</head>
+<body>
+<form id="openai-form">
+    <label>Prompt:</label>
+    <textarea id="prompt" rows="5" cols="50"></textarea>
+    <br />
+    <button type="submit">Submit</button>
+</form>
+<div id="response"></div>
+<script>
+    // Get the form element
+    const form = document.getElementById("openai-form");
+    // Get the response element
+    const responseEl = document.getElementById("response");
+
+    // Listen for form submit event
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        // Get the prompt from the textarea
+        const prompt = document.getElementById("prompt").value;
+        try {
+            // Make a POST request to your Node.js server
+            const res = await fetch("http://localhost:5001/find-complexity", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ prompt }),
+            });
+            // Parse the response as JSON
+            const data = await res.json();
+            // Display the response in the browser
+            responseEl.innerText = data.data;
+        } catch (error) {
+            console.error(error);
+            responseEl.innerText = "An error occurred";
+        }
+    });
+</script>
+</body>
+</html>

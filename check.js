@@ -15,6 +15,7 @@ axios.post(endpoint, audio, {
     }
 }).then(response => {
     console.log(response.data);
+    let res = response.data;
 }).catch(error => {
     console.log(error);
 });

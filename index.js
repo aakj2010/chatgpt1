@@ -1,10 +1,22 @@
 const express = require("express");
-require("dotenv").config();
+const dotenv = require("dotenv");
+const cors = require("cors")
 const { Configuration, OpenAIApi } = require("openai");
+
+dotenv.config();
 
 const app = express();
 
+
 app.use(express.json());
+app.use(express.static('public'));
+app.set('view engine', 'ejs');
+
+app.use(cors({
+  origin: "*",
+  credentials: true
+}))
+
 
 const configuration = new Configuration({
   apiKey: process.env.OPEN_AI_KEY,
@@ -46,5 +58,8 @@ app.post("/find-complexity", async (req, res) => {
 });
 const port = process.env.PORT || 5001;
 
+app.get('/',(req,res)=>{
+  res.render('home');
+})
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
